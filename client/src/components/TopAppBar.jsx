@@ -47,14 +47,8 @@ export default function TopAppBar({ page, onBack, city, onSignIn, isAdmin, curre
               </svg>
             </button>
           )}
-          <div className="topbar-title-block">
-            <div className="logo-mobile" onClick={onBack} style={{ cursor: 'pointer' }}>
-              <img src="/image/Narayana.png" alt="Logo" />
-            </div>
-            {page !== 'home' && (
-              <>
-              </>
-            )}
+          <div className="logo-mobile" onClick={onBack} style={{ cursor: 'pointer' }}>
+            <img src="/image/Narayana.png" alt="Logo" />
           </div>
         </div>
         <div className="topbar-right" style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>

@@ -164,25 +164,33 @@ body {
 /* ─── MOBILE TOP BAR ─── */
 .mobile-topbar {
   position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
-  background: rgba(255, 255, 255, 0.95);
-  backdrop-filter: blur(24px);
-  -webkit-backdrop-filter: blur(24px);
-  box-shadow: 0 4px 20px rgba(0,0,0,0.05);
-  padding: 12px 20px;
+  background: var(--white);
+  box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+  padding: 0 16px;
   display: flex; align-items: center; justify-content: space-between;
-  height: 64px;
+  height: 60px;
 }
-.topbar-left { display: flex; align-items: center; gap: 12px; }
-.logo-mobile { height: 48px; display: flex; align-items: center; }
-.logo-mobile img { height: 100%; width: auto; }
+.topbar-left { 
+  display: flex; 
+  align-items: center; 
+  gap: 8px; 
+  height: 100%;
+}
+.logo-mobile { 
+  height: 32px; 
+  display: flex; 
+  align-items: center;
+}
+.logo-mobile img { 
+  height: 100%; 
+  width: auto; 
+  display: block;
+}
 .topbar-back {
   background: none; border: none; cursor: pointer;
   padding: 4px; color: var(--navy);
   display: flex; align-items: center; justify-content: center;
 }
-.topbar-title-block { display: flex; flex-direction: column; }
-.topbar-label { font-size: 10px; font-weight: 800; text-transform: uppercase; color: var(--muted); line-height: 1; }
-.topbar-city { font-size: 18px; font-weight: 700; color: var(--navy); letter-spacing: -0.01em; }
 .topbar-avatar {
   width: 36px; height: 36px; border-radius: 99px;
   background: var(--ice); overflow: hidden;
