@@ -104,7 +104,7 @@ export default function App() {
   useEffect(() => {
     let isMounted = true;
     console.log("🌐 App Initialized. Environment:", import.meta.env.MODE);
-    console.log("🌐 Fetching properties from http://localhost:5001/api/properties");
+    console.log("🌐 Fetching properties from https://my-property-app.onrender.com/api/properties");
     
     // We start with isLoading false and show what we have (or empty)
     // to avoid being stuck on a loading screen
@@ -114,7 +114,7 @@ export default function App() {
     const controller = new AbortController();
     const timeoutId = setTimeout(() => controller.abort(), 5000); 
 
-    fetch('http://localhost:5001/api/properties', { signal: controller.signal })
+    fetch('https://my-property-app.onrender.com/api/properties', { signal: controller.signal })
       .then(r => {
         clearTimeout(timeoutId);
         if (!r.ok) return r.json().then(d => { throw new Error(d.error || 'Server Error') });
