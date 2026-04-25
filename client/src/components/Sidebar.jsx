@@ -38,7 +38,7 @@ export default function Sidebar({ isOpen, onClose, currentUser, onLogout, onNavi
                   onClose();
                 }}
               >
-                <span className="sidebar-icon">{item.icon}</span>
+                
                 {item.label}
               </a>
             ))}
