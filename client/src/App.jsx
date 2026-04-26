@@ -341,6 +341,11 @@ export default function App() {
         page={page}
         city={searchCity}
         onBack={handleBack}
+        onLogoClick={() => {
+          setPage('home');
+          setActiveTab('home');
+          setNavHistory([]);
+        }}
         onSignIn={() => navigateTo('login', 'account')}
         isAdmin={isAdmin}
         currentUser={currentUser}
@@ -372,7 +377,7 @@ export default function App() {
 
         {page === 'home' && (
           <>
-            <Hero onSearch={handleSearch} onNavigateListings={() => { setPage('listings'); setActiveTab('explore'); }} />
+            <Hero onSearch={handleSearch} onNavigateListings={() => navigateTo('listings', 'explore')} />
             <PromotionSlider />
             <PopularCities onCityClick={handleCityClick} />
             <FeaturedProperties
@@ -381,7 +386,7 @@ export default function App() {
               onSave={toggleFav}
               onBookVisit={p => setVisitProp(p)}
               onCallNow={handleCallNow}
-              onViewAll={() => { setPage('listings'); setActiveTab('explore'); }}
+              onViewAll={() => navigateTo('listings', 'explore')}
             />
           </>
         )}

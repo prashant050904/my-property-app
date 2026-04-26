@@ -56,7 +56,7 @@ export default function TopAppBar({ page, onBack, onLogoClick, city, onSignIn, i
               </svg>
             </button>
           )}
-          <div className="logo-mobile" onClick={onBack} style={{ cursor: 'pointer' }}>
+          <div className="logo-mobile" onClick={handleLogoClick} style={{ cursor: 'pointer' }}>
             <img src="/image/Narayana.png" alt="Logo" />
           </div>
         </div>
