@@ -4,6 +4,13 @@ export default function TopAppBar({ page, onBack, city, onSignIn, isAdmin, curre
       {/* Desktop */}
       <nav className="desktop-nav-99">
         <div className="nav-left">
+          {page !== 'home' && (
+            <button className="icon-btn back-btn" onClick={onBack} aria-label="Go back" style={{ marginRight: '12px' }}>
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M19 12H5M12 5l-7 7 7 7" />
+              </svg>
+            </button>
+          )}
           <div className="logo-99" onClick={onBack} style={{ cursor: 'pointer' }}>
             <img src="/image/Narayana.png" alt="Logo" />
           </div>

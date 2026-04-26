@@ -135,6 +135,11 @@ body {
 }
 .icon-btn:hover { background: rgba(255,255,255,0.1); color: var(--white); }
 
+.icon-btn.back-btn:hover {
+  background: rgba(255,255,255,0.1);
+  color: var(--white);
+}
+
 .icon-btn.profile {
   background: rgba(255,255,255,0.05);
   padding: 6px 12px 6px 6px;
@@ -978,13 +983,62 @@ body {
   padding: 12px 24px; display: flex; gap: 8px;
   overflow-x: auto; scrollbar-width: none;
   position: sticky; top: 72px; z-index: 900;
+  align-items: center;
 }
 .filter-bar::-webkit-scrollbar { display: none; }
+
+.filter-dropdown-container {
+  position: relative;
+  display: inline-block;
+}
+
+.filter-dropdown-menu {
+  position: absolute;
+  top: calc(100% + 8px);
+  left: 0;
+  background: var(--white);
+  border-radius: 16px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+  min-width: 180px;
+  z-index: 1000;
+  padding: 8px;
+  border: 1px solid var(--border);
+  animation: slideDown 0.2s ease-out;
+}
+
+@keyframes slideDown {
+  from { opacity: 0; transform: translateY(-10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.filter-dropdown-item {
+  padding: 10px 16px;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--slate);
+  cursor: pointer;
+  border-radius: 10px;
+  transition: all 0.2s;
+}
+
+.filter-dropdown-item:hover {
+  background: var(--off-white);
+  color: var(--navy);
+}
+
+.filter-dropdown-item.selected {
+  background: var(--ice);
+  color: var(--blue);
+}
+
 .filter-pill {
   border-radius: 99px; padding: 8px 16px;
   font-size: 14px; font-weight: 500;
   cursor: pointer; white-space: nowrap; flex-shrink: 0;
-  transition: background 0.2s, color 0.2s;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  gap: 6px;
 }
 .filter-pill.primary {
   background: var(--navy); color: var(--white); border: none;

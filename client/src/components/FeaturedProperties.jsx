@@ -5,22 +5,22 @@ const FEATURED_FALLBACK = [
     id: 'f1', name: 'Premium Villa Plots', location: 'Devenahalli, Bangalore',
     price: '₹1.2 Cr', sqft: '2,400 SQFT', bhk: '',
     propertyType: 'Residential Plot', verified: true, isNew: true,
-    possession: 'Ready to Move', amenitiesCount: 15, highlights: 'OC Received',
-    img: 'https://images.unsplash.com/photo-1500382017468-9049fed747ef?w=800&q=80'
+    possession: 'Ready to Move', amenitiesCount: 15, highlights: 'Near Highway',
+    img: '/image/plot1.png'
   },
   {
-    id: 'f2', name: 'The Sky Atrium', location: 'Worli, Mumbai',
+    id: 'f2', name: 'The Sky Atrium', location: 'gurumitkal, Yadgir',
     price: '₹8.5 Cr', sqft: '3,200 SQFT', bhk: '4 BHK',
     propertyType: 'Penthouse', verified: true,
-    possession: 'Ready in 2026', amenitiesCount: 25, highlights: 'Sea View',
-    img: 'https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=600&q=80'
+    possession: 'Ready in 2026', amenitiesCount: 25, highlights: 'Near Highway',
+    img: '/image/plot2.png'
   },
   {
-    id: 'f3', name: 'Green Valley Acres', location: 'Panvel, Navi Mumbai',
+    id: 'f3', name: 'Green Valley Acres', location: 'gurumitkal, Yadgir-585201',
     price: '₹45 Lac', sqft: '5,000 SQFT', bhk: '',
     propertyType: 'Agricultural Land', verified: true,
     possession: 'Immediate Possession', amenitiesCount: 8, highlights: 'Near Highway',
-    img: 'https://images.unsplash.com/photo-1500076656116-558758c991c1?w=800&q=80'
+    img: '/image/plot3.png'
   },
 ];
 

@@ -157,6 +157,7 @@ export default function App() {
     setActiveTab(tab);
     if (tab === 'home') setPage('home');
     else if (tab === 'explore') setPage('listings');
+    else if (tab === 'saved') setPage('listings'); // We'll filter for saved in listings page or a new view
     else if (tab === 'account') setPage('login');
   };
 
@@ -166,6 +167,11 @@ export default function App() {
       next.has(id) ? next.delete(id) : next.add(id);
       return next;
     });
+  };
+
+  const handleCallNow = (property) => {
+    const phone = property.phone || "+91 99000 00000";
+    window.open(`tel:${phone}`);
   };
 
   const handleLogout = async () => {
@@ -329,8 +335,16 @@ export default function App() {
         currentUser={currentUser}
         onLogout={handleLogout}
         onNavigate={(target) => {
-          if (target === 'login') setPage('login');
-          // Handle other navigation items if needed
+          if (target === 'login') {
+            setPage('login');
+          } else if (target === 'buy' || target === 'rent' || target === 'plots' || target === 'projects') {
+            setPage('listings');
+            setActiveTab('explore');
+            if (target === 'plots') setSearchQuery('Plot');
+            else setSearchQuery('');
+          } else if (target === 'insights') {
+            alert('Insights feature coming soon!');
+          }
         }}
       />
 
@@ -347,7 +361,7 @@ export default function App() {
               favorites={favorites}
               onSave={toggleFav}
               onBookVisit={p => setVisitProp(p)}
-              onCallNow={() => {}}
+              onCallNow={handleCallNow}
               onViewAll={() => { setPage('listings'); setActiveTab('explore'); }}
             />
           </>
@@ -359,9 +373,10 @@ export default function App() {
             favorites={favorites}
             onSave={toggleFav}
             onBookVisit={p => setVisitProp(p)}
-            onCallNow={() => {}}
+            onCallNow={handleCallNow}
             searchQuery={searchQuery}
             city={searchCity}
+            activeTab={activeTab}
           />
         )}
 

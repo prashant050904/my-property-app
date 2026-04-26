@@ -29,7 +29,7 @@ const PROMOTIONS = [
     id: 4,
     title: "Premium Plots",
     subtitle: "Exclusive villa plots in gated communities with world-class amenities.",
-    image: "https://images.unsplash.com/photo-1500382017468-9049fed747ef?w=800&q=80",
+    image: "/image/plot5.png",
     color: "#004d40", // Deep Teal
     tag: "HOT DEAL"
   }
