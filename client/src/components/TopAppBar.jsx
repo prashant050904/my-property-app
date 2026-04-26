@@ -1,4 +1,6 @@
-export default function TopAppBar({ page, onBack, city, onSignIn, isAdmin, currentUser, onLogout, onMenuToggle }) {
+export default function TopAppBar({ page, onBack, onLogoClick, city, onSignIn, isAdmin, currentUser, onLogout, onMenuToggle }) {
+  const handleLogoClick = onLogoClick || onBack;
+
   return (
     <>
       {/* Desktop */}
@@ -11,7 +13,7 @@ export default function TopAppBar({ page, onBack, city, onSignIn, isAdmin, curre
               </svg>
             </button>
           )}
-          <div className="logo-99" onClick={onBack} style={{ cursor: 'pointer' }}>
+          <div className="logo-99" onClick={handleLogoClick} style={{ cursor: 'pointer' }}>
             <img src="/image/Narayana.png" alt="Logo" />
           </div>
         </div>

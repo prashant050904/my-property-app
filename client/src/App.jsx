@@ -60,6 +60,7 @@ export default function App() {
   const [searchCity, setSearchCity]         = useState('Mumbai');
   const [favorites, setFavorites]           = useState(new Set());
   const [isSidebarOpen, setIsSidebarOpen]   = useState(false);
+  const [navHistory, setNavHistory]         = useState([]);
 
   // Auth
   const [isAdmin, setIsAdmin]               = useState(false);
@@ -140,25 +141,42 @@ export default function App() {
     };
   }, []);
 
+  /* ─── NAVIGATION ─── */
+  const navigateTo = (p, t) => {
+    if (p === page && (!t || t === activeTab)) return;
+    setNavHistory(prev => [...prev, { page, activeTab }]);
+    setPage(p);
+    if (t) setActiveTab(t);
+  };
+
+  const handleBack = () => {
+    if (navHistory.length > 0) {
+      const last = navHistory[navHistory.length - 1];
+      setNavHistory(prev => prev.slice(0, -1));
+      setPage(last.page);
+      setActiveTab(last.activeTab);
+    } else {
+      setPage('home');
+      setActiveTab('home');
+    }
+  };
+
   /* ─── HANDLERS ─── */
   const handleSearch = (q, filter) => {
     setSearchQuery(q);
-    setPage('listings');
-    setActiveTab('explore');
+    navigateTo('listings', 'explore');
   };
 
   const handleCityClick = (city) => {
     setSearchCity(city === 'all' ? 'India' : city);
-    setPage('listings');
-    setActiveTab('explore');
+    navigateTo('listings', 'explore');
   };
 
   const handleTabChange = (tab) => {
-    setActiveTab(tab);
-    if (tab === 'home') setPage('home');
-    else if (tab === 'explore') setPage('listings');
-    else if (tab === 'saved') setPage('listings'); // We'll filter for saved in listings page or a new view
-    else if (tab === 'account') setPage('login');
+    if (tab === 'home') navigateTo('home', 'home');
+    else if (tab === 'explore') navigateTo('listings', 'explore');
+    else if (tab === 'saved') navigateTo('listings', 'saved');
+    else if (tab === 'account') navigateTo('login', 'account');
   };
 
   const toggleFav = (id) => {
@@ -183,6 +201,7 @@ export default function App() {
       setCurrentUser(null);
       setPage('home');
       setActiveTab('home');
+      setNavHistory([]);
     }
   };
 
@@ -242,6 +261,7 @@ export default function App() {
       console.log("OTP login success:", data);
       setPage('home');
       setActiveTab('home');
+      setNavHistory([]);
     }
     setAuthLoading(false);
   };
@@ -320,8 +340,8 @@ export default function App() {
       <TopAppBar
         page={page}
         city={searchCity}
-        onBack={() => setPage('home')}
-        onSignIn={() => setPage('login')}
+        onBack={handleBack}
+        onSignIn={() => navigateTo('login', 'account')}
         isAdmin={isAdmin}
         currentUser={currentUser}
         onLogout={handleLogout}
@@ -336,10 +356,9 @@ export default function App() {
         onLogout={handleLogout}
         onNavigate={(target) => {
           if (target === 'login') {
-            setPage('login');
+            navigateTo('login', 'account');
           } else if (target === 'buy' || target === 'rent' || target === 'plots' || target === 'projects') {
-            setPage('listings');
-            setActiveTab('explore');
+            navigateTo('listings', 'explore');
             if (target === 'plots') setSearchQuery('Plot');
             else setSearchQuery('');
           } else if (target === 'insights') {
