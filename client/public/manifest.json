@@ -1,0 +1,21 @@
+{
+  "short_name": "Narayana",
+  "name": "Narayana Properties",
+  "icons": [
+    {
+      "src": "/image/Narayana.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/image/Narayana.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ],
+  "start_url": ".",
+  "display": "standalone",
+  "theme_color": "#000619",
+  "background_color": "#ffffff"
+}
