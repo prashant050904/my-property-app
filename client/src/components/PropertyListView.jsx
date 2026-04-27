@@ -8,19 +8,19 @@ const SAMPLE_LISTINGS = [
     id: 'l1', name: 'Skyline Residences', location: 'Andheri West, Mumbai',
     price: 14500000, sqft: '1,450 SQFT', bhk: '3 BHK',
     propertyType: 'Apartment', verified: true, isNew: true,
-    img: 'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=600&q=80'
+    img: '/image/plot4.png'
   },
   {
     id: 'l2', name: 'Oceanic Vista', location: 'Borivali East, Mumbai',
     price: 8500000, sqft: '980 SQFT', bhk: '2 BHK',
     propertyType: 'Apartment', verified: false,
-    img: 'https://images.unsplash.com/photo-1613490493576-7fde63acd811?w=600&q=80'
+    img: '/image/plot5.png'
   },
   {
     id: 'l3', name: 'The Marquee Heights', location: 'Worli, Mumbai',
     price: 21000000, sqft: '1,800 SQFT', bhk: '4 BHK',
     propertyType: 'Apartment', verified: true,
-    img: 'https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=600&q=80'
+    img: '/image/plot6.png'
   },
   {
     id: 'l4', name: 'Heritage Acres', location: 'Nelamangala, Bangalore',
@@ -32,7 +32,7 @@ const SAMPLE_LISTINGS = [
     id: 'l5', name: 'Green Field Valley', location: 'Hosur, Tamil Nadu',
     price: 1800000, sqft: '2,000 SQFT', bhk: '',
     propertyType: 'Plot', verified: true,
-    img: '/image/plot4.png'
+    img: '/image/plot2.png'
   },
 ];
 
