@@ -210,7 +210,14 @@ export default function App() {
     setAuthLoading(true);
     const { error } = await supabase.auth.signInWithOAuth({
       provider: 'google',
-      options: { redirectTo: window.location.origin }
+      options: { 
+        redirectTo: window.location.origin,
+        queryParams: {
+          client_id: '775752908504-c1pio05bir57s1d6da3dljs21kvtu72p.apps.googleusercontent.com',
+          access_type: 'offline',
+          prompt: 'consent',
+        }
+      }
     });
     if (error) {
       console.error("Google login error:", error.message);
