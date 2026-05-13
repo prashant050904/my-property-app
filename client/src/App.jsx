@@ -213,7 +213,7 @@ export default function App() {
       options: { 
         redirectTo: window.location.origin,
         queryParams: {
-          client_id: '775752908504-c1pio05bir57s1d6da3dljs21kvtu72p.apps.googleusercontent.com',
+          client_id: '677049830188-kd60t5igeu2dp62bgth6v1b5adbfadd0.apps.googleusercontent.com',
           access_type: 'offline',
           prompt: 'consent',
         }
@@ -392,8 +392,8 @@ export default function App() {
               favorites={favorites}
               onSave={toggleFav}
               onBookVisit={p => setVisitProp(p)}
-              onCallNow={handleCallNow}
-              onViewAll={() => navigateTo('listings', 'explore')}
+              onCallNow={() => {}}
+              onViewAll={() => { setPage('listings'); setActiveTab('explore'); }}
             />
           </>
         )}
@@ -404,7 +404,7 @@ export default function App() {
             favorites={favorites}
             onSave={toggleFav}
             onBookVisit={p => setVisitProp(p)}
-            onCallNow={handleCallNow}
+            onCallNow={() => {}}
             searchQuery={searchQuery}
             city={searchCity}
             activeTab={activeTab}
@@ -534,7 +534,7 @@ export default function App() {
               {/* Right Column: Features */}
               <div className="auth-modal-right-v2">
                 <div className="auth-illustration-v2">
-                  <img src="/image/auth-illustration.png" alt="Welcome" />
+                  <img src="/image/login.png" alt="Welcome" />
                 </div>
                 <div className="auth-features-v2">
                   <div className="feature-item-v2">
