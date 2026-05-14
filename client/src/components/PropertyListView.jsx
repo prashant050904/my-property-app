@@ -1,6 +1,5 @@
 import { useState, useMemo } from 'react';
 import PropertyCard from './PropertyCard';
-import StickyFilterBar from './StickyFilterBar';
 import ConciergeSection from './ConciergeSection';
 
 const SAMPLE_LISTINGS = [
@@ -38,8 +37,6 @@ const SAMPLE_LISTINGS = [
 
 export default function PropertyListView({ properties, favorites, onSave, onBookVisit, onCallNow, searchQuery, city, activeTab }) {
   const [activeFilters, setActiveFilters] = useState({});
-  const [sortBy, setSortBy] = useState('Popularity'); // 'Popularity' | 'Price: Low to High' | 'Price: High to Low' | 'Newest'
-  const [showSortDropdown, setShowSortDropdown] = useState(false);
 
   const allProps = useMemo(() => {
     let props = (properties && properties.length > 0)
@@ -137,68 +134,36 @@ export default function PropertyListView({ properties, favorites, onSave, onBook
   const sortOptions = ['Popularity', 'Price: Low to High', 'Price: High to Low', 'Newest'];
 
   return (
-    <div>
-      <StickyFilterBar activeFilters={activeFilters} onFilterChange={handleFilterChange} />
-
-      {/* Results header */}
+    <div className="listings-page">
       <div className="listings-header">
-        <p className="results-label">Found {filtered.length.toLocaleString('en-IN')} properties</p>
-        <div className="sort-row">
-          <h2 className="results-title">
-            {activeTab === 'saved' ? 'Your Favorites' : (Object.keys(activeFilters).length > 0 ? 'Filtered Results' : 'Premium Listings')}
-          </h2>
-          
-          <div className="sort-container" style={{ position: 'relative' }}>
-            <button className="btn-sort" onClick={() => setShowSortDropdown(!showSortDropdown)}>
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <line x1="4" y1="6" x2="20" y2="6"/><line x1="4" y1="12" x2="20" y2="12"/><line x1="4" y1="18" x2="20" y2="18"/>
-              </svg>
-              Sort by: {sortBy}
-            </button>
-            
-            {showSortDropdown && (
-              <div className="filter-dropdown-menu" style={{ right: 0, left: 'auto', minWidth: '200px' }}>
-                {sortOptions.map(opt => (
-                  <div 
-                    key={opt} 
-                    className={`filter-dropdown-item ${sortBy === opt ? 'selected' : ''}`}
-                    onClick={() => {
-                      setSortBy(opt);
-                      setShowSortDropdown(false);
-                    }}
-                  >
-                    {opt}
-                  </div>
-                ))}
-              </div>
-            )}
-          </div>
-        </div>
+        <h2 className="section-h2">
+          {activeTab === 'saved' ? 'Saved Properties' : `Properties in ${city}`}
+        </h2>
+        <p style={{ color: 'var(--slate)', marginTop: '8px' }}>
+          Showing {filtered.length} results
+        </p>
       </div>
 
-      {/* Property List */}
-      {filtered.length === 0 ? (
+      <div className="listings-list">
+        {filtered.map(p => (
+          <PropertyCard
+            key={p.id}
+            property={p}
+            saved={favorites && favorites.has(p.id)}
+            onSave={onSave}
+            onBookVisit={onBookVisit}
+            onCallNow={onCallNow}
+          />
+        ))}
+      </div>
+
+      {filtered.length === 0 && (
         <div className="no-results">
           <h3>No properties found</h3>
-          <p>Try adjusting your search or filters</p>
-        </div>
-      ) : (
-        <div className="listings-list">
-          {filtered.map(p => (
-            <PropertyCard
-              key={p.id}
-              property={p}
-              variant="list"
-              saved={favorites && favorites.has(p.id)}
-              onSave={onSave}
-              onBookVisit={onBookVisit}
-              onCallNow={onCallNow}
-            />
-          ))}
+          <p>Try adjusting your filters or search area</p>
         </div>
       )}
 
-      {/* Concierge Section */}
       <ConciergeSection />
     </div>
   );

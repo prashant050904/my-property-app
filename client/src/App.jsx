@@ -54,7 +54,7 @@ export default function App() {
   const [isLoading, setIsLoading]           = useState(true);
   const [error, setError]                   = useState(null);
 
-  const [page, setPage]                     = useState('home');  // 'home' | 'listings' | 'login'
+  const [page, setPage]                     = useState('home');
   const [activeTab, setActiveTab]           = useState('home');
   const [searchQuery, setSearchQuery]       = useState('');
   const [searchCity, setSearchCity]         = useState('Mumbai');
@@ -105,7 +105,7 @@ export default function App() {
   useEffect(() => {
     let isMounted = true;
     console.log("🌐 App Initialized. Environment:", import.meta.env.MODE);
-    console.log("🌐 Fetching properties from https://my-property-app.onrender.com/api/properties");
+    console.log("🌐 Fetching properties from http://localhost:5001/api/properties");
     
     // We start with isLoading false and show what we have (or empty)
     // to avoid being stuck on a loading screen
@@ -115,7 +115,7 @@ export default function App() {
     const controller = new AbortController();
     const timeoutId = setTimeout(() => controller.abort(), 5000); 
 
-    fetch('https://my-property-app.onrender.com/api/properties', { signal: controller.signal })
+    fetch('http://localhost:5001/api/properties', { signal: controller.signal })
       .then(r => {
         clearTimeout(timeoutId);
         if (!r.ok) return r.json().then(d => { throw new Error(d.error || 'Server Error') });
@@ -208,10 +208,16 @@ export default function App() {
   const handleGoogleLogin = async () => {
     if (!supabase) return alert("Auth not configured");
     setAuthLoading(true);
+    
+    // Use the production URL if available, otherwise fallback to current origin
+    const redirectURL = import.meta.env.PROD 
+      ? 'https://my-property-app.onrender.com' 
+      : window.location.origin;
+
     const { error } = await supabase.auth.signInWithOAuth({
       provider: 'google',
       options: { 
-        redirectTo: window.location.origin,
+        redirectTo: redirectURL,
         queryParams: {
           client_id: '677049830188-kd60t5igeu2dp62bgth6v1b5adbfadd0.apps.googleusercontent.com',
           access_type: 'offline',
@@ -564,21 +570,6 @@ export default function App() {
       </main>
 
       <Footer />
-
-      {/* ─── PROPERTY COUNT FAB (mobile) ─── */}
-      {page === 'home' && properties.length > 0 && (
-        <button className="prop-count-fab" onClick={() => navigateTo('listings', 'explore')}>
-          <div className="prop-count-info">
-            <span className="prop-count-num">{properties.length}</span>
-            <span className="prop-count-label">Properties</span>
-          </div>
-          <div className="prop-count-btn">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
-              <path d="M9 18l6-6-6-6"/>
-            </svg>
-          </div>
-        </button>
-      )}
 
       {/* ─── BOTTOM NAV (mobile) ─── */}
       <BottomNavBar activeTab={activeTab} onTabChange={handleTabChange} />

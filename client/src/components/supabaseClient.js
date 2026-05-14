@@ -4,7 +4,7 @@ import { createClient } from "@supabase/supabase-js";
 // 🔹 Replace with your Supabase credentials
 const supabase = createClient(
   "zumlbzmvlmtizywuvvur" // url 
-  "https://zumlbzmvlmtizywuvvur.supabase.co"// key
+                         // key
 );
 
 export default function App() {

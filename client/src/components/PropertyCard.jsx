@@ -78,8 +78,6 @@ export default function PropertyCard({ property, variant = 'list', saved, onSave
     onSave && onSave(property.id || property._id);
   };
 
-  const defaultImg = `https://images.unsplash.com/photo-1580587771525-78b9dba3b914?w=600&q=80`;
-
   const handleOpenMap = (e) => {
     e.stopPropagation();
     const { lat, lng, name, address, location, postal } = property;

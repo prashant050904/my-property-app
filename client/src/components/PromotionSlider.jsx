@@ -24,14 +24,6 @@ const PROMOTIONS = [
     image: "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=800&q=80",
     color: "#000619", // Deep Navy
     tag: "SPONSORED"
-  },
-  {
-    id: 4,
-    title: "Premium Plots",
-    subtitle: "Exclusive villa plots in gated communities with world-class amenities.",
-    image: "/image/plot5.png",
-    color: "#004d40", // Deep Teal
-    tag: "HOT DEAL"
   }
 ];
 
@@ -40,8 +32,8 @@ export default function PromotionSlider() {
     <section className="promo-section">
       <div className="section-header">
         <div>
-          <p className="section-label">Exclusive Offers</p>
-          <h2 className="section-h2">Promotions & Ads</h2>
+          <p className="section-label" style={{ color: 'var(--blue)', fontSize: '12px', fontWeight: '700', textTransform: 'uppercase', marginBottom: '8px' }}>Exclusive Offers</p>
+          <h2 className="section-h2" style={{ fontSize: '32px', fontWeight: '800', color: 'var(--navy)' }}>Promotions & Ads</h2>
         </div>
       </div>
       

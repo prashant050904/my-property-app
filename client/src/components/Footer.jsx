@@ -10,7 +10,7 @@ export default function Footer() {
             <img src="/image/Narayana.png" alt="PrimeEstate Logo" />
           </div>
           <p className="footer-desc">
-            PrimeEstate is your trusted partner in finding the perfect sanctuary. 
+            Narayana Real Estate is your trusted partner in finding the perfect sanctuary. 
             We offer a curated selection of premium properties across India.
           </p>
           <div className="social-links">
@@ -72,7 +72,7 @@ export default function Footer() {
       </div>
       
       <div className="footer-bottom">
-        <p>&copy; 2026 PrimeEstate. All rights reserved.</p>
+        <p>&copy; 2026 Narayana Real Estate. All rights reserved.</p>
       </div>
     </footer>
   );
