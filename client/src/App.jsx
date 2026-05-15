@@ -232,6 +232,31 @@ export default function App() {
     setAuthLoading(false);
   };
 
+  const handleFacebookLogin = async () => {
+    if (!supabase) return alert("Auth not configured");
+    setAuthLoading(true);
+    
+    const redirectURL = import.meta.env.PROD 
+      ? 'https://my-property-app.onrender.com' 
+      : window.location.origin;
+
+    const { error } = await supabase.auth.signInWithOAuth({
+      provider: 'facebook',
+      options: { 
+        redirectTo: redirectURL,
+      }
+    });
+    if (error) {
+      console.error("Facebook login error:", error.message);
+      alert(error.message);
+    }
+    setAuthLoading(false);
+  };
+
+  const handlePhoneLogin = async () => {
+    await handleSendOtp();
+  };
+
   const handleSendOtp = async () => {
     if (!supabase) return alert("Auth not configured");
     if (!phoneNumber) return alert("Please enter your phone number");
@@ -433,11 +458,11 @@ export default function App() {
                           Continue with Google
                         </button>
                         <div className="social-row-v2">
-                          <button className="btn-social-v2 small">
-                            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M17.073 10.717c.012-2.161 1.768-3.187 1.846-3.233-1.01-1.478-2.588-1.679-3.151-1.701-1.341-.138-2.623.789-3.303.789-.679 0-1.741-.776-2.86-.753-1.471.022-2.829.856-3.589 2.178-1.533 2.668-.393 6.626 1.096 8.775.73 1.051 1.595 2.227 2.735 2.184 1.1-.044 1.514-.711 2.842-.711 1.326 0 1.7.711 2.865.689 1.2-.021 1.974-1.063 2.701-2.133.841-1.231 1.187-2.423 1.206-2.486-.026-.013-2.313-.886-2.338-3.543zm-2.42-7.513c.604-.731 1.01-1.747.898-2.764-.875.036-1.933.583-2.559 1.314-.563.649-1.054 1.688-.923 2.682.975.076 1.979-.499 2.584-1.232z"/></svg>
-                            Apple
+                          <button className="btn-social-v2 small" onClick={() => setOtpSent(false)}>
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 3.07 9.81 19.79 19.79 0 0 1 .1 1.18 2 2 0 0 1 2.11 0h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L6.09 7.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 14.92z"/></svg>
+                            Phone
                           </button>
-                          <button className="btn-social-v2 small">
+                          <button className="btn-social-v2 small" onClick={handleFacebookLogin}>
                             <svg width="18" height="18" viewBox="0 0 24 24" fill="#1877F2"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.469h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.469h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
                             Facebook
                           </button>
@@ -449,42 +474,75 @@ export default function App() {
                       </div>
 
                       <div className="auth-form-v2">
-                        <div className="input-group-v2">
-                          <label>Email Address</label>
-                          <input 
-                            type="email" 
-                            placeholder="e.g. name@example.com"
-                            value={userEmail}
-                            onChange={e => setUserEmail(e.target.value)}
-                          />
-                        </div>
-                        
-                        <div className="input-group-v2">
-                          <label>Password</label>
-                          <div className="password-wrapper-v2">
-                            <input 
-                              type="password" 
-                              placeholder="Enter your password"
-                              value={userPass}
-                              onChange={e => setUserPass(e.target.value)}
-                            />
-                            <button className="btn-show-pass">
-                              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+                        {!otpSent ? (
+                          <>
+                            <div className="input-group-v2">
+                              <label>Email Address / Phone</label>
+                              <input 
+                                type="text" 
+                                placeholder="Email or Phone (e.g. +91...)"
+                                value={userEmail.includes('@') ? userEmail : phoneNumber}
+                                onChange={e => {
+                                  const val = e.target.value;
+                                  if (val.includes('@')) {
+                                    setUserEmail(val);
+                                    setPhoneNumber('');
+                                  } else {
+                                    setPhoneNumber(val);
+                                    setUserEmail('');
+                                  }
+                                }}
+                              />
+                            </div>
+                            
+                            {userEmail.includes('@') && (
+                              <div className="input-group-v2">
+                                <label>Password</label>
+                                <div className="password-wrapper-v2">
+                                  <input 
+                                    type="password" 
+                                    placeholder="Enter your password"
+                                    value={userPass}
+                                    onChange={e => setUserPass(e.target.value)}
+                                  />
+                                  <button className="btn-show-pass">
+                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+                                  </button>
+                                </div>
+                              </div>
+                            )}
+
+                            <div className="auth-options-v2">
+                              <label className="checkbox-label-v2">
+                                <input type="checkbox" />
+                                <span>Keep me logged in</span>
+                              </label>
+                              {userEmail.includes('@') && <button className="btn-forgot-v2">Forgot password?</button>}
+                            </div>
+
+                            <button className="btn-submit-v2" onClick={userEmail.includes('@') ? handleEmailLogin : handlePhoneLogin}>
+                              {userEmail.includes('@') ? 'Log in' : 'Send OTP'}
                             </button>
-                          </div>
-                        </div>
-
-                        <div className="auth-options-v2">
-                          <label className="checkbox-label-v2">
-                            <input type="checkbox" />
-                            <span>Keep me logged in</span>
-                          </label>
-                          <button className="btn-forgot-v2">Forgot password?</button>
-                        </div>
-
-                        <button className="btn-submit-v2" onClick={handleEmailLogin}>
-                          Log in
-                        </button>
+                          </>
+                        ) : (
+                          <>
+                            <div className="input-group-v2">
+                              <label>Verify OTP</label>
+                              <input 
+                                type="text" 
+                                placeholder="Enter 6-digit OTP"
+                                value={otp}
+                                onChange={e => setOtp(e.target.value)}
+                              />
+                            </div>
+                            <button className="btn-submit-v2" onClick={handleVerifyOtp}>
+                              Verify & Login
+                            </button>
+                            <button className="btn-forgot-v2" style={{ marginTop: '12px' }} onClick={() => setOtpSent(false)}>
+                              Back to Login
+                            </button>
+                          </>
+                        )}
 
                         <p className="auth-footer-v2">
                           Our <a href="#">privacy policy</a> applies.
