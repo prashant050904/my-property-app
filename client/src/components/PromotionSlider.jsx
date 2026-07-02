@@ -3,27 +3,27 @@ import React from 'react';
 const PROMOTIONS = [
   {
     id: 1,
-    title: "Dream Home Deals",
-    subtitle: "Up to 20% off on premium luxury apartments in Bangalore & Mumbai.",
-    image: "https://images.unsplash.com/photo-1560518883-ce09059eeffa?w=800&q=80",
-    color: "#005FAF", // Prime Blue
-    tag: "ADVERTISEMENT"
+    title: "Luxury Villas in Goa",
+    subtitle: "Experience beachfront living with exclusive 15% discount on booking.",
+    image: "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=800&q=80",
+    color: "#2563EB", // Bright Blue
+    tag: "HOT OFFER"
   },
   {
     id: 2,
-    title: "Zero Brokerage",
-    subtitle: "Direct deals from owners. Rent or buy without paying any middleman fees.",
-    image: "https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?w=800&q=80",
-    color: "#151C22", // Slate Dark
-    tag: "PROMOTED"
+    title: "Affordable Flats in Delhi",
+    subtitle: "2 & 3 BHK flats starting from ₹45 Lakhs. No hidden charges!",
+    image: "https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?w=800&q=80",
+    color: "#059669", // Green
+    tag: "NEW LAUNCH"
   },
   {
     id: 3,
-    title: "Smart Investment",
-    subtitle: "High-yield commercial properties in upcoming business hubs. ROI up to 12%.",
-    image: "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=800&q=80",
-    color: "#000619", // Deep Navy
-    tag: "SPONSORED"
+    title: "Commercial Spaces in Pune",
+    subtitle: "Prime office spaces with 2 years free maintenance.",
+    image: "https://images.unsplash.com/photo-1497366216548-37526070297c?w=800&q=80",
+    color: "#DC2626", // Red
+    tag: "LIMITED TIME"
   }
 ];
 
