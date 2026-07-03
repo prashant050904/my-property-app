@@ -60,7 +60,6 @@ export default function Hero({ onSearch, onNavigateListings }) {
       <div className="hero-container-v9">
         {/* Hero Content */}
         <div className="hero-content-v9">
-          <span className="hero-tag-v9">Premier Real Estate Platform</span>
           <h1 className="hero-title-v9">
             Discover Your<br />Perfect Sanctuary
           </h1>
