@@ -2,11 +2,11 @@ import React from 'react';
 
 export default function Sidebar({ isOpen, onClose, currentUser, onLogout, onNavigate }) {
   const navItems = [
-    { label: 'Home', icon: '🏠', id: 'home' },
-    { label: 'Saved Properties', icon: '❤️', id: 'saved' },
-    { label: 'My Bookings', icon: '📅', id: 'bookings' },
-    { label: 'Profile', icon: '👤', id: 'profile' },
-    { label: 'Help & Support', icon: '❓', id: 'help' },
+    { label: 'Home',  id: 'home' },
+    { label: 'Saved Properties',   id: 'saved' },
+    { label: 'My Bookings',   id: 'bookings' },
+    { label: 'Profile',   id: 'profile' },
+    { label: 'Help & Support',   id: 'help' },
   ];
 
   return (
