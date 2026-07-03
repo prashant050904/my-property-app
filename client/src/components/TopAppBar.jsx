@@ -18,15 +18,7 @@ export default function TopAppBar({ page, onBack, onLogoClick, city, onSignIn, i
           </div>
         </div>
 
-        <div className="nav-center">
-          <a href="#" className="active">Buy</a>
-          <a href="#">Rent</a>
-          <a href="#">New Launch</a>
-          <a href="#">Commercial</a>
-          <a href="#">Plots/Land</a>
-          <a href="#">Projects</a>
-          <a href="#" className="insights">Insights <span className="badge">NEW</span></a>
-        </div>
+
 
         <div className="nav-right">
           <div className="nav-icons">

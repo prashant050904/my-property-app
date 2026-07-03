@@ -162,7 +162,7 @@ export default function App() {
   };
 
   /* ─── HANDLERS ─── */
-  const handleSearch = (q, filter) => {
+  const handleSearch = (q) => {
     setSearchQuery(q);
     navigateTo('listings', 'explore');
   };
@@ -393,22 +393,22 @@ export default function App() {
 
       {/* ─── SIDEBAR ─── */}
       <Sidebar 
-        isOpen={isSidebarOpen} 
-        onClose={() => setIsSidebarOpen(false)} 
-        currentUser={currentUser}
-        onLogout={handleLogout}
-        onNavigate={(target) => {
-          if (target === 'login') {
-            navigateTo('login', 'account');
-          } else if (target === 'buy' || target === 'rent' || target === 'plots' || target === 'projects') {
-            navigateTo('listings', 'explore');
-            if (target === 'plots') setSearchQuery('Plot');
-            else setSearchQuery('');
-          } else if (target === 'insights') {
-            alert('Insights feature coming soon!');
-          }
-        }}
-      />
+            isOpen={isSidebarOpen} 
+            onClose={() => setIsSidebarOpen(false)} 
+            currentUser={currentUser}
+            onLogout={handleLogout}
+            onNavigate={(target) => {
+              if (target === 'login') {
+                navigateTo('login', 'account');
+              } else if (target === 'home') {
+                navigateTo('home', 'home');
+              } else if (target === 'saved') {
+                navigateTo('listings', 'saved');
+              } else {
+                alert(`${target.charAt(0).toUpperCase() + target.slice(1)} feature coming soon!`);
+              }
+            }}
+          />
 
       {/* ─── PAGES ─── */}
       <main className="mobile-page-content">

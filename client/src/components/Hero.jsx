@@ -2,13 +2,11 @@ import { useState } from 'react';
 
 export default function Hero({ onSearch, onNavigateListings }) {
   const [query, setQuery] = useState('');
-  const [activeTab, setActiveTab] = useState('Buy');
   const [isListening, setIsListening] = useState(false);
-  const tabs = ['Buy', 'Rent', 'New Launch', 'Commercial', 'Plots/Land', 'Projects'];
 
   const handleSearch = (e) => {
     e?.preventDefault();
-    onSearch && onSearch(query, activeTab);
+    onSearch && onSearch(query);
     onNavigateListings && onNavigateListings();
   };
 
@@ -32,7 +30,7 @@ export default function Hero({ onSearch, onNavigateListings }) {
       setQuery(transcript);
       // Auto-search after a short delay to let user see the text
       setTimeout(() => {
-        onSearch && onSearch(transcript, activeTab);
+        onSearch && onSearch(transcript);
         onNavigateListings && onNavigateListings();
       }, 500);
     };
@@ -74,24 +72,7 @@ export default function Hero({ onSearch, onNavigateListings }) {
         {/* Fully Featured Search Bar V13 */}
         <div className="search-wrapper-v13">
           <form className="search-container-v13" onSubmit={handleSearch}>
-            {/* Top Bar: Categories Integrated */}
-            <div className="search-header-v13">
-              <div className="tabs-row-v13">
-                {tabs.map(tab => (
-                  <button
-                    key={tab}
-                    type="button"
-                    className={`tab-link-v13 ${activeTab === tab ? 'active' : ''}`}
-                    onClick={() => setActiveTab(tab)}
-                  >
-                    {tab}
-                    {tab === 'New Launch' && <span className="dot-v13" />}
-                  </button>
-                ))}
-              </div>
-            </div>
-
-            {/* Bottom Bar: Search Inputs */}
+            {/* Search Inputs */}
             <div className="search-body-v13">
               {/* Segment 1: Type Selection */}
               <div className="search-segment-v13 segment-type">
@@ -111,7 +92,7 @@ export default function Hero({ onSearch, onNavigateListings }) {
                   <svg className="input-icon-v13" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
                   <input
                     type="text"
-                    placeholder={activeTab === 'Plots/Land' ? 'Search "Plots in North Bangalore"' : 'Search "Bungalow in South Mumbai"'}
+                    placeholder='Search "Bungalow in South Mumbai"'
                     value={query}
                     onChange={e => setQuery(e.target.value)}
                   />

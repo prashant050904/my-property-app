@@ -2,13 +2,11 @@ import React from 'react';
 
 export default function Sidebar({ isOpen, onClose, currentUser, onLogout, onNavigate }) {
   const navItems = [
-    { label: 'Buy', icon: '🏠', id: 'buy' },
-    { label: 'Rent', icon: '🔑', id: 'rent' },
-    { label: 'New Launch', icon: '✨', id: 'new-launch' },
-    { label: 'Commercial', icon: '🏢', id: 'commercial' },
-    { label: 'Plots/Land', icon: '🏞️', id: 'plots' },
-    { label: 'Projects', icon: '🏗️', id: 'projects' },
-    { label: 'Insights', icon: '📊', id: 'insights' },
+    { label: 'Home', icon: '🏠', id: 'home' },
+    { label: 'Saved Properties', icon: '❤️', id: 'saved' },
+    { label: 'My Bookings', icon: '📅', id: 'bookings' },
+    { label: 'Profile', icon: '👤', id: 'profile' },
+    { label: 'Help & Support', icon: '❓', id: 'help' },
   ];
 
   return (
@@ -38,7 +36,7 @@ export default function Sidebar({ isOpen, onClose, currentUser, onLogout, onNavi
                   onClose();
                 }}
               >
-                
+                <span style={{ marginRight: '12px', fontSize: '18px' }}>{item.icon}</span>
                 {item.label}
               </a>
             ))}
