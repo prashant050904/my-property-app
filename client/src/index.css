@@ -66,10 +66,10 @@ input, textarea, [contenteditable="true"], .selectable {
 
 /* ─── DESKTOP TOP NAVBAR (99acres style) ─── */
 .desktop-nav-99 {
-  position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
-  background: #0a0f1e;
-  border-bottom: 1px solid rgba(255,255,255,0.08);
-  box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+  position: absolute; top: 0; left: 0; right: 0; z-index: 1000;
+  background: transparent;
+  border-bottom: none;
+  box-shadow: none;
   color: var(--white);
   padding: 0 40px;
   height: 96px;
@@ -191,10 +191,10 @@ input, textarea, [contenteditable="true"], .selectable {
 
 /* ─── MOBILE TOP BAR ─── */
 .mobile-topbar {
-  position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
-  background: #0a0f1e;
-  border-bottom: 1px solid rgba(255,255,255,0.08);
-  box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+  position: absolute; top: 0; left: 0; right: 0; z-index: 1000;
+  background: transparent;
+  border-bottom: none;
+  box-shadow: none;
   padding: 0 16px;
   display: flex; align-items: center; justify-content: space-between;
   height: 64px;
@@ -230,6 +230,132 @@ input, textarea, [contenteditable="true"], .selectable {
 .topbar-avatar img { width: 100%; height: 100%; object-fit: cover; }
 .topbar-avatar-placeholder {
   font-size: 16px; font-weight: 700; color: var(--blue);
+}
+
+/* ─── STICKY SEARCH BAR ─── */
+.sticky-search-bar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 999;
+  background: var(--white);
+  padding: 12px 40px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+  animation: slideDown 0.3s ease;
+}
+
+@keyframes slideDown {
+  from {
+    transform: translateY(-100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.sticky-search-container {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.sticky-search-logo {
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+.sticky-logo-img {
+  height: 40px;
+  width: auto;
+}
+
+.sticky-search-form {
+  flex: 1;
+  display: flex;
+  gap: 12px;
+}
+
+.sticky-search-input {
+  flex: 1;
+  padding: 12px 16px;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  font-size: 15px;
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+.sticky-search-input:focus {
+  border-color: var(--blue);
+}
+
+.sticky-search-btn {
+  background: var(--blue);
+  color: var(--white);
+  border: none;
+  border-radius: 12px;
+  padding: 12px 20px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.sticky-search-btn:hover {
+  background: var(--navy);
+}
+
+.sticky-search-auth {
+  flex-shrink: 0;
+}
+
+.sticky-auth-btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--blue);
+  color: var(--white);
+  border: none;
+  border-radius: 12px;
+  padding: 10px 20px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.sticky-auth-btn:hover {
+  background: var(--navy);
+}
+
+.sticky-avatar {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: var(--blue-lt);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+}
+
+@media (max-width: 767px) {
+  .sticky-search-bar {
+    padding: 12px 16px;
+  }
+  .sticky-search-container {
+    gap: 12px;
+  }
+  .sticky-logo-img {
+    height: 32px;
+  }
+  .sticky-auth-btn {
+    padding: 8px 16px;
+    font-size: 13px;
+  }
 }
 
 /* ─── BOTTOM NAV (mobile only) ─── */

@@ -61,6 +61,7 @@ export default function App() {
   const [favorites, setFavorites]           = useState(new Set());
   const [isSidebarOpen, setIsSidebarOpen]   = useState(false);
   const [navHistory, setNavHistory]         = useState([]);
+  const [isScrolled, setIsScrolled]         = useState(false);
 
   // Auth
   const [isAdmin, setIsAdmin]               = useState(false);
@@ -77,6 +78,20 @@ export default function App() {
 
   // Book visit modal
   const [visitProp, setVisitProp]           = useState(null);
+
+  /* ─── SCROLL LISTENER ─── */
+  useEffect(() => {
+    const handleScroll = () => {
+      if (window.scrollY > 100) {
+        setIsScrolled(true);
+      } else {
+        setIsScrolled(false);
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
 
   /* ─── AUTH SESSION ─── */
   useEffect(() => {
@@ -390,6 +405,51 @@ export default function App() {
         onLogout={handleLogout}
         onMenuToggle={() => setIsSidebarOpen(true)}
       />
+
+      {/* ─── STICKY SEARCH BAR ─── */}
+      {page === 'home' && isScrolled && (
+        <div className="sticky-search-bar">
+          <div className="sticky-search-container">
+            <div className="sticky-search-logo" onClick={() => {
+              setPage('home');
+              setActiveTab('home');
+              setNavHistory([]);
+            }}>
+              <img src="/image/Narayana.png" alt="Logo" className="sticky-logo-img" />
+            </div>
+            <form onSubmit={(e) => {
+              e.preventDefault();
+              handleSearch(searchQuery);
+              navigateTo('listings', 'explore');
+            }} className="sticky-search-form">
+              <input
+                type="text"
+                placeholder="Search properties..."
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                className="sticky-search-input"
+              />
+              <button type="submit" className="sticky-search-btn">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+              </button>
+            </form>
+            <div className="sticky-search-auth">
+              {currentUser ? (
+                <button className="sticky-auth-btn" onClick={handleLogout}>
+                  <div className="sticky-avatar">
+                    {currentUser[0]?.toUpperCase()}
+                  </div>
+                  Logout
+                </button>
+              ) : (
+                <button className="sticky-auth-btn" onClick={() => navigateTo('login', 'account')}>
+                  Login
+                </button>
+              )}
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* ─── SIDEBAR ─── */}
       <Sidebar 
