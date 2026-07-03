@@ -78,6 +78,8 @@ export default function App() {
 
   // Book visit modal
   const [visitProp, setVisitProp]           = useState(null);
+  // Contact modal
+  const [contactModalOpen, setContactModalOpen] = useState(false);
 
   /* ─── SCROLL LISTENER ─── */
   useEffect(() => {
@@ -390,21 +392,24 @@ export default function App() {
     <div className="page-wrapper">
 
       {/* ─── TOP BAR ─── */}
-      <TopAppBar
-        page={page}
-        city={searchCity}
-        onBack={handleBack}
-        onLogoClick={() => {
-          setPage('home');
-          setActiveTab('home');
-          setNavHistory([]);
-        }}
-        onSignIn={() => navigateTo('login', 'account')}
-        isAdmin={isAdmin}
-        currentUser={currentUser}
-        onLogout={handleLogout}
-        onMenuToggle={() => setIsSidebarOpen(true)}
-      />
+      {page !== 'login' && (
+        <TopAppBar
+          page={page}
+          city={searchCity}
+          onBack={handleBack}
+          onLogoClick={() => {
+            setPage('home');
+            setActiveTab('home');
+            setNavHistory([]);
+          }}
+          onSignIn={() => navigateTo('login', 'account')}
+          isAdmin={isAdmin}
+          currentUser={currentUser}
+          onLogout={handleLogout}
+          onMenuToggle={() => setIsSidebarOpen(true)}
+          onContactClick={() => setContactModalOpen(true)}
+        />
+      )}
 
       {/* ─── STICKY SEARCH BAR ─── */}
       {page === 'home' && isScrolled && (
@@ -508,6 +513,9 @@ export default function App() {
               {/* Left Column: Form */}
               <div className="auth-modal-left-v2">
                 <div className="auth-form-wrapper-v2">
+                  <button className="auth-back-btn" onClick={handleBack}>
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>
+                  </button>
                   <h1 className="auth-title-v2">{authView === 'login' ? 'Log in' : 'Create Account'}</h1>
                   
                   {authView === 'login' ? (
@@ -517,16 +525,10 @@ export default function App() {
                           <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="Google" />
                           Continue with Google
                         </button>
-                        <div className="social-row-v2">
-                          <button className="btn-social-v2 small" onClick={() => setOtpSent(false)}>
-                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 3.07 9.81 19.79 19.79 0 0 1 .1 1.18 2 2 0 0 1 2.11 0h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L6.09 7.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 14.92z"/></svg>
-                            Phone
-                          </button>
-                          <button className="btn-social-v2 small" onClick={handleFacebookLogin}>
-                            <svg width="18" height="18" viewBox="0 0 24 24" fill="#1877F2"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.469h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.469h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
-                            Facebook
-                          </button>
-                        </div>
+                        <button className="btn-social-v2" onClick={handleFacebookLogin}>
+                          <svg width="18" height="18" viewBox="0 0 24 24" fill="#1877F2"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.469h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.469h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+                          Continue with Facebook
+                        </button>
                       </div>
 
                       <div className="auth-divider-v2">
@@ -560,23 +562,23 @@ export default function App() {
                                 <label>Password</label>
                                 <div className="password-wrapper-v2">
                                   <input 
-                                    type="password" 
+                                    type={showPass ? "text" : "password"} 
                                     placeholder="Enter your password"
                                     value={userPass}
                                     onChange={e => setUserPass(e.target.value)}
                                   />
-                                  <button className="btn-show-pass">
-                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+                                  <button className="btn-show-pass" onClick={() => setShowPass(!showPass)}>
+                                    {showPass ? (
+                                      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/></svg>
+                                    ) : (
+                                      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+                                    )}
                                   </button>
                                 </div>
                               </div>
                             )}
 
                             <div className="auth-options-v2">
-                              <label className="checkbox-label-v2">
-                                <input type="checkbox" />
-                                <span>Keep me logged in</span>
-                              </label>
                               {userEmail.includes('@') && <button className="btn-forgot-v2">Forgot password?</button>}
                             </div>
 
@@ -635,12 +637,21 @@ export default function App() {
                       </div>
                       <div className="input-group-v2">
                         <label>Password</label>
-                        <input 
-                          type="password" 
-                          placeholder="Minimum 6 characters"
-                          value={userPass}
-                          onChange={e => setUserPass(e.target.value)}
-                        />
+                        <div className="password-wrapper-v2">
+                          <input 
+                            type={showPass ? "text" : "password"} 
+                            placeholder="Minimum 6 characters"
+                            value={userPass}
+                            onChange={e => setUserPass(e.target.value)}
+                          />
+                          <button className="btn-show-pass" onClick={() => setShowPass(!showPass)}>
+                            {showPass ? (
+                              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/></svg>
+                            ) : (
+                              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+                            )}
+                          </button>
+                        </div>
                       </div>
 
                       <button className="btn-submit-v2" onClick={handleRegister}>
@@ -740,6 +751,87 @@ export default function App() {
               Confirm Booking
             </button>
           </form>
+        </Modal>
+      )}
+
+      {/* Contact Modal */}
+      {contactModalOpen && (
+        <Modal title="CONTACT US" onClose={() => setContactModalOpen(false)}>
+          <div style={{ 
+            borderTop: '3px solid #9333ea', // Purple border like the screenshot
+            paddingTop: '16px',
+            marginTop: '8px'
+          }}>
+            {/* Toll Free */}
+            <div style={{ marginBottom: '24px' }}>
+              <div style={{ display: 'flex', alignItems: 'flex-start', gap: '12px' }}>
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--slate)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ marginTop: '4px', flexShrink: 0 }}>
+                  <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/>
+                </svg>
+                <div>
+                  <p style={{ color: 'var(--slate)', fontSize: '16px', marginBottom: '4px' }}>
+                    Toll Free | 9:30 AM to 6:30 PM (Mon-Sun)
+                  </p>
+                  <a href="tel:18004199099" style={{ color: 'var(--navy)', fontSize: '24px', fontWeight: '700', textDecoration: 'none' }}>
+                    1800-41-99099
+                  </a>
+                </div>
+              </div>
+            </div>
+
+            {/* International */}
+            <div style={{ marginBottom: '32px' }}>
+              <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', gap: '12px' }}>
+                <div style={{ display: 'flex', alignItems: 'flex-start', gap: '12px' }}>
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--slate)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ marginTop: '4px', flexShrink: 0 }}>
+                    <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/>
+                  </svg>
+                  <div>
+                    <p style={{ color: 'var(--slate)', fontSize: '16px', marginBottom: '4px' }}>
+                      For International Users
+                    </p>
+                    <a href="tel:+911206637501" style={{ color: 'var(--navy)', fontSize: '20px', fontWeight: '700', textDecoration: 'none' }}>
+                      +91-120-6637501
+                    </a>
+                  </div>
+                </div>
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--slate)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ flexShrink: 0 }}>
+                  <path d="M9 18l6-6-6-6"/>
+                </svg>
+              </div>
+            </div>
+
+            {/* Request Callback Button */}
+            <button style={{ 
+              width: '100%', 
+              padding: '16px', 
+              borderRadius: '12px', 
+              border: '2px solid #2563eb', 
+              background: 'var(--white)', 
+              color: '#2563eb', 
+              fontSize: '18px', 
+              fontWeight: '700', 
+              cursor: 'pointer',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              gap: '10px',
+              transition: 'all 0.2s'
+            }} 
+            onMouseOver={(e) => { e.target.style.background = '#eff6ff'; }}
+            onMouseOut={(e) => { e.target.style.background = 'var(--white)'; }}
+            onClick={() => { alert('We will call you back shortly!'); setContactModalOpen(false); }}>
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#2563eb" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/>
+              </svg>
+              Request a Call Back
+            </button>
+
+            {/* FAQ Link */}
+            <p style={{ textAlign: 'center', marginTop: '20px', color: 'var(--slate)', fontSize: '16px' }}>
+              To check all the FAQ <a href="#" style={{ color: '#2563eb', textDecoration: 'underline' }} onClick={(e) => { e.preventDefault(); alert('FAQ page coming soon!'); }}>click here</a>
+            </p>
+          </div>
         </Modal>
       )}
     </div>

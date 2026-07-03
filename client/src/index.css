@@ -89,9 +89,9 @@ input, textarea, [contenteditable="true"], .selectable {
   height: 72px;
   display: flex; 
   align-items: center;
-  filter: brightness(0) invert(1);
   cursor: pointer;
   transition: transform 0.2s;
+  filter: brightness(0) invert(1) drop-shadow(0 2px 4px rgba(0,0,0,0.2));
 }
 .desktop-nav-99 .logo-99:hover { transform: scale(1.05); }
 .desktop-nav-99 .logo-99 img { height: 100%; width: auto; object-fit: contain; }
@@ -209,7 +209,7 @@ input, textarea, [contenteditable="true"], .selectable {
   height: 42px; 
   display: flex; 
   align-items: center;
-  filter: brightness(0) invert(1);
+  filter: brightness(0) invert(1) drop-shadow(0 2px 4px rgba(0,0,0,0.2));
 }
 .logo-mobile img { height: 100%; width: auto; }
 .topbar-back {
@@ -272,6 +272,7 @@ input, textarea, [contenteditable="true"], .selectable {
 .sticky-logo-img {
   height: 40px;
   width: auto;
+  filter: drop-shadow(0 1px 2px rgba(0,0,0,0.1));
 }
 
 .sticky-search-form {
@@ -1284,7 +1285,25 @@ input, textarea, [contenteditable="true"], .selectable {
   align-items: center;
   justify-content: center;
   background: var(--off-white);
-  padding: 120px 20px 60px;
+  padding: 20px;
+}
+
+.auth-back-btn {
+  background: none;
+  border: none;
+  color: var(--slate);
+  cursor: pointer;
+  padding: 8px;
+  margin-bottom: 16px;
+  border-radius: 8px;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+}
+
+.auth-back-btn:hover {
+  background: var(--ice);
+  color: var(--navy);
 }
 
 /* ─── AUTH PAGE V2 (Split Layout) ─── */
@@ -1342,12 +1361,6 @@ input, textarea, [contenteditable="true"], .selectable {
 .btn-social-v2 img {
   width: 18px;
   height: 18px;
-}
-
-.social-row-v2 {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 12px;
 }
 
 .auth-divider-v2 {
@@ -1428,7 +1441,7 @@ input, textarea, [contenteditable="true"], .selectable {
 
 .auth-options-v2 {
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-end;
   align-items: center;
   margin-top: 4px;
 }
