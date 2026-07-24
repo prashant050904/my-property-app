@@ -33,7 +33,7 @@ export default function PromotionSlider() {
       <div className="section-header">
         <div>
           <p className="section-label" style={{ color: 'var(--blue)', fontSize: '12px', fontWeight: '700', textTransform: 'uppercase', marginBottom: '8px' }}>Exclusive Offers</p>
-          <h2 className="section-h2" style={{ fontSize: '32px', fontWeight: '800', color: 'var(--navy)' }}>Promotions & Ads</h2>
+          <h2 className="section-h2" style={{ fontSize: '32px', fontWeight: '800', color: 'var(--navy)' }}>EXCLUSIVE OFFERS</h2>
         </div>
       </div>
       

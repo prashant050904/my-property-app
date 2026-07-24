@@ -16,6 +16,18 @@ export default function TopAppBar({ page, onBack, onLogoClick, city, onSignIn, i
           <div className="logo-99" onClick={handleLogoClick} style={{ cursor: 'pointer' }}>
             <img src="/image/Narayana.png" alt="Logo" />
           </div>
+          <button className="nav-dropdown-btn">
+            Buy in <span style={{ opacity: 0.7 }}>▾</span>
+          </button>
+        </div>
+        <div className="nav-center">
+          <a href="#" className="active">For Buyers</a>
+          <a href="#">For Tenants</a>
+          <a href="#">For Owners</a>
+          <a href="#">For Dealers / Builders</a>
+          <a href="#" className="insights">
+            Insights <span className="badge">NEW</span>
+          </a>
         </div>
         <div className="nav-right">
           <button className="icon-btn" aria-label="Help" style={{ marginRight: '0' }} onClick={onContactClick}>
