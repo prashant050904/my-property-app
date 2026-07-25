@@ -1,5 +1,6 @@
 import { useState, useMemo } from 'react';
 import PropertyCard from './PropertyCard';
+import StickyFilterBar from './StickyFilterBar';
 import ConciergeSection from './ConciergeSection';
 
 const SAMPLE_LISTINGS = [
@@ -37,6 +38,7 @@ const SAMPLE_LISTINGS = [
 
 export default function PropertyListView({ properties, favorites, onSave, onBookVisit, onCallNow, searchQuery, city, activeTab }) {
   const [activeFilters, setActiveFilters] = useState({});
+  const [sortBy, setSortBy] = useState('Popularity');
 
   const allProps = useMemo(() => {
     let props = (properties && properties.length > 0)
@@ -136,13 +138,30 @@ export default function PropertyListView({ properties, favorites, onSave, onBook
   return (
     <div className="listings-page">
       <div className="listings-header">
-        <h2 className="section-h2">
-          {activeTab === 'saved' ? 'Saved Properties' : `Properties in ${city}`}
-        </h2>
-        <p style={{ color: 'var(--slate)', marginTop: '8px' }}>
-          Showing {filtered.length} results
-        </p>
+        <div>
+          <h2 className="section-h2">
+            {activeTab === 'saved' ? 'Saved Properties' : `Properties in ${city}`}
+          </h2>
+          <p style={{ color: 'var(--slate)', marginTop: '8px' }}>
+            Showing {filtered.length} results
+          </p>
+        </div>
+        <div className="listings-sort">
+          <span className="sort-label">Sort by</span>
+          <select
+            className="sort-select"
+            value={sortBy}
+            onChange={(e) => setSortBy(e.target.value)}
+          >
+            {sortOptions.map(o => <option key={o} value={o}>{o}</option>)}
+          </select>
+        </div>
       </div>
+
+      <StickyFilterBar
+        activeFilters={activeFilters}
+        onFilterChange={handleFilterChange}
+      />
 
       <div className="listings-list">
         {filtered.map(p => (

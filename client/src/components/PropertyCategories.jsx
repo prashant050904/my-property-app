@@ -52,7 +52,7 @@ export default function PropertyCategories() {
 
   const scroll = (direction) => {
     if (scrollContainerRef.current) {
-      const scrollAmount = 400;
+      const scrollAmount = 700;
       if (direction === 'left') {
         scrollContainerRef.current.scrollLeft -= scrollAmount;
       } else {

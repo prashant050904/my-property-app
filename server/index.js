@@ -10,10 +10,6 @@ const { createClient } = require('@supabase/supabase-js');
 const app = express();
 const PORT = process.env.PORT || 5001;
 
-app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
-});
-
 // 4. Setup middleware
 app.use(cors());
 app.use(express.json());
@@ -95,6 +91,3 @@ app.post('/api/properties', async (req, res) => {
 app.listen(PORT, () => {
   console.log(`✅ server is open! Connected to Supabase on port ${PORT}`);
 });
-
-// Keep the process alive for the sandbox
-setInterval(() => {}, 1000);

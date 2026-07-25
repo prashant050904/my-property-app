@@ -6,9 +6,11 @@ import TopAppBar        from './components/TopAppBar';
 import Sidebar          from './components/Sidebar';
 import BottomNavBar     from './components/BottomNavBar';
 import Hero             from './components/Hero';
+import CategoryBar      from './components/CategoryBar';
 import PropertyCategories from './components/PropertyCategories';
 import PopularCities    from './components/PopularCities';
 import FeaturedProperties from './components/FeaturedProperties';
+import SellCTASection   from './components/SellCTASection';
 import PropertyListView from './components/PropertyListView';
 import Footer           from './components/Footer';
 
@@ -62,6 +64,14 @@ export default function App() {
   const [isSidebarOpen, setIsSidebarOpen]   = useState(false);
   const [navHistory, setNavHistory]         = useState([]);
   const [isScrolled, setIsScrolled]         = useState(false);
+  const [isPastHero, setIsPastHero]         = useState(false);
+
+  // Hero / Sticky shared search state (single source of truth for both UI modes)
+  const [heroQuery, setHeroQuery]           = useState('');
+  const [heroLocation, setHeroLocation]     = useState('');
+  const [heroPropertyType, setHeroPropertyType] = useState('All Residential');
+  const [heroBudget, setHeroBudget]         = useState('Any Budget');
+  const [heroSearchTab, setHeroSearchTab]   = useState(0); // 0 Buy / 1 Rent / 2 Commercial / 3 Projects
 
   // Auth
   const [isAdmin, setIsAdmin]               = useState(false);
@@ -84,10 +94,16 @@ export default function App() {
   /* ─── SCROLL LISTENER ─── */
   useEffect(() => {
     const handleScroll = () => {
-      if (window.scrollY > 100) {
+      const y = window.scrollY;
+      if (y > 80) {
         setIsScrolled(true);
       } else {
         setIsScrolled(false);
+      }
+      if (y > 600) {
+        setIsPastHero(true);
+      } else {
+        setIsPastHero(false);
       }
     };
 
@@ -182,6 +198,20 @@ export default function App() {
   const handleSearch = (q) => {
     setSearchQuery(q);
     navigateTo('listings', 'explore');
+  };
+
+  // Shared Hero + Sticky search submit (single source of truth)
+  const handleHeroSearch = (e) => {
+    e?.preventDefault();
+    const combined = [heroQuery, heroLocation, heroPropertyType].filter(Boolean).join(' ');
+    const finalQuery = combined.trim() || heroQuery;
+    handleSearch(finalQuery);
+  };
+
+  const handleHeroOpenMap = () => {
+    const searchQuery_ = heroQuery || heroLocation || 'Properties and Plots in India';
+    const url = `https://www.google.com/maps/search/${encodeURIComponent(searchQuery_)}`;
+    window.open(url, '_blank');
   };
 
   const handleCityClick = (city) => {
@@ -408,50 +438,78 @@ export default function App() {
           onLogout={handleLogout}
           onMenuToggle={() => setIsSidebarOpen(true)}
           onContactClick={() => setContactModalOpen(true)}
+          favorites={favorites}
+          isScrolled={isScrolled}
         />
       )}
 
-      {/* ─── STICKY SEARCH BAR ─── */}
-      {page === 'home' && isScrolled && (
-        <div className="sticky-search-bar">
-          <div className="sticky-search-container">
-            <div className="sticky-search-logo" onClick={() => {
-              setPage('home');
-              setActiveTab('home');
-              setNavHistory([]);
-            }}>
-              <img src="/image/Narayana.png" alt="Logo" className="sticky-logo-img" />
+      {/* ─── STICKY SEARCH BAR ─── appears ONLY after scrolling past hero (~600px) */}
+      {page === 'home' && isPastHero && (
+        <div className="sticky-search-bar compact-shared">
+          <div className="sticky-search-container shared">
+            {/* Buy / Rent Tab Toggle */}
+            <div className="sticky-buy-rent-tabs" role="tablist" aria-label="Purpose">
+              <button
+                type="button"
+                role="tab"
+                aria-selected={heroSearchTab === 0}
+                className={`sticky-br-tab ${heroSearchTab === 0 ? 'active' : ''}`}
+                onClick={() => setHeroSearchTab(0)}
+              >Buy</button>
+              <button
+                type="button"
+                role="tab"
+                aria-selected={heroSearchTab === 1}
+                className={`sticky-br-tab ${heroSearchTab === 1 ? 'active' : ''}`}
+                onClick={() => setHeroSearchTab(1)}
+              >Rent</button>
             </div>
-            <form onSubmit={(e) => {
-              e.preventDefault();
-              handleSearch(searchQuery);
-              navigateTo('listings', 'explore');
-            }} className="sticky-search-form">
-              <input
-                type="text"
-                placeholder="Search properties..."
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                className="sticky-search-input"
-              />
-              <button type="submit" className="sticky-search-btn">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+
+            {/* Search input */}
+            <form onSubmit={handleHeroSearch} className="sticky-search-form shared">
+              <div className="shared-search-field shared-input">
+                <input
+                  type="text"
+                  placeholder="Search by project, city, or keyword..."
+                  value={heroQuery}
+                  onChange={(e) => setHeroQuery(e.target.value)}
+                />
+              </div>
+              <div className="shared-search-divider" />
+              <div className="shared-search-field shared-select">
+                <select
+                  value={heroPropertyType}
+                  onChange={(e) => setHeroPropertyType(e.target.value)}
+                >
+                  <option>All Residential</option>
+                  <option>Apartment</option>
+                  <option>Villa</option>
+                  <option>Plot</option>
+                  <option>Independent House</option>
+                  <option>Commercial Office</option>
+                </select>
+              </div>
+              <div className="shared-search-divider" />
+              <div className="shared-search-field shared-select">
+                <select
+                  value={heroBudget}
+                  onChange={(e) => setHeroBudget(e.target.value)}
+                >
+                  <option>Any Budget</option>
+                  <option>Under ₹30 Lac</option>
+                  <option>₹30 Lac - ₹60 Lac</option>
+                  <option>₹60 Lac - ₹1 Cr</option>
+                  <option>₹1 Cr - ₹2.5 Cr</option>
+                  <option>₹2.5 Cr - ₹5 Cr</option>
+                  <option>₹5 Cr+</option>
+                </select>
+              </div>
+
+              <button type="submit" className="sticky-search-btn shared">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+                <span className="sticky-search-btn-label">Search</span>
               </button>
             </form>
-            <div className="sticky-search-auth">
-              {currentUser ? (
-                <button className="sticky-auth-btn" onClick={handleLogout}>
-                  <div className="sticky-avatar">
-                    {currentUser[0]?.toUpperCase()}
-                  </div>
-                  Logout
-                </button>
-              ) : (
-                <button className="sticky-auth-btn" onClick={() => navigateTo('login', 'account')}>
-                  Login
-                </button>
-              )}
-            </div>
           </div>
         </div>
       )}
@@ -480,7 +538,22 @@ export default function App() {
 
         {page === 'home' && (
           <>
-            <Hero onSearch={handleSearch} onNavigateListings={() => navigateTo('listings', 'explore')} />
+            <Hero
+              onSearch={handleSearch}
+              onNavigateListings={() => navigateTo('listings', 'explore')}
+              query={heroQuery}
+              setQuery={setHeroQuery}
+              location={heroLocation}
+              setLocation={setHeroLocation}
+              propertyType={heroPropertyType}
+              setPropertyType={setHeroPropertyType}
+              budget={heroBudget}
+              setBudget={setHeroBudget}
+              activeTab={heroSearchTab}
+              setActiveTab={setHeroSearchTab}
+              onOpenMap={handleHeroOpenMap}
+            />
+            <CategoryBar />
             <PropertyCategories />
             <PopularCities onCityClick={handleCityClick} />
             <FeaturedProperties
@@ -491,6 +564,7 @@ export default function App() {
               onCallNow={() => {}}
               onViewAll={() => { setPage('listings'); setActiveTab('explore'); }}
             />
+            <SellCTASection />
           </>
         )}
 
@@ -702,7 +776,10 @@ export default function App() {
 
       {/* ─── PROPERTY COUNT FAB (mobile) ─── */}
       {page === 'home' && properties.length > 0 && (
-        <button className="prop-count-fab" onClick={() => navigateTo('listings', 'explore')}>
+        <button
+          className={`prop-count-fab ${page === 'home' && !isPastHero ? 'home-hero-fab' : ''}`}
+          onClick={() => navigateTo('listings', 'explore')}
+        >
           <div className="prop-count-info">
             <span className="prop-count-num">{properties.length}</span>
             <span className="prop-count-label">Properties</span>
