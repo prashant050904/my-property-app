@@ -6,7 +6,7 @@ import TopAppBar        from './components/TopAppBar';
 import Sidebar          from './components/Sidebar';
 import BottomNavBar     from './components/BottomNavBar';
 import Hero             from './components/Hero';
-import PromotionSlider  from './components/PromotionSlider';
+import PropertyCategories from './components/PropertyCategories';
 import PopularCities    from './components/PopularCities';
 import FeaturedProperties from './components/FeaturedProperties';
 import PropertyListView from './components/PropertyListView';
@@ -481,7 +481,7 @@ export default function App() {
         {page === 'home' && (
           <>
             <Hero onSearch={handleSearch} onNavigateListings={() => navigateTo('listings', 'explore')} />
-            <PromotionSlider />
+            <PropertyCategories />
             <PopularCities onCityClick={handleCityClick} />
             <FeaturedProperties
               properties={properties}
